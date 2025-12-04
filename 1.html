@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bom Dia, Meu Amor 💗</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Poppins", sans-serif;
+            background: linear-gradient(to bottom, #fef6ff, #e3e8ff);
+            color: #333;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 5px;
+            height: 70px;
+        }
+
+        p.sub {
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 25px;
+            font-size: 0.95rem;
+        }
+
+        /* Card */
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 18px 20px;
+            margin-bottom: 22px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .card p {
+            margin: 0;
+            font-size: 0.95rem;
+            line-height: 1.35rem;
+        }
+
+        /* Botão */
+        .btn {
+            width: fit-content;
+            background: #ff72b6;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 22px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .btn:hover {
+            background: #ff5fa8;
+        }
+
+        /* Rodapé */
+        .footer {
+            background: #ff72b6;
+            padding: 16px;
+            border-radius: 18px;
+            text-align: center;
+            color: white;
+            font-weight: 600;
+            margin-top: 30px;
+        }
+
+        /* Ajustes Mobile */
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.6rem;
+            }
+
+            .card {
+                padding: 15px 16px;
+            }
+
+            .card-title {
+                font-size: 1.1rem;
+            }
+
+            .card p {
+                font-size: 0.92rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1 id="dynamic-title"></h1>
+
+        <p class="sub">Escolha seu momento do dia e receba uma mensagem especial.</p>
+
+        <!-- Manhã -->
+        <div class="card">
+            <div class="card-title">🌅 Manhã</div>
+            <p>
+                Que seu dia nasça claro, organizado e bonito — igual aos
+                ambientes que ganham vida quando você está neles.
+            </p>
+            <button class="btn" data-periodo="manha">Playlist da Manhã</button>
+        </div>
+
+        <!-- Tarde -->
+        <div class="card">
+            <div class="card-title">🌤️ Tarde</div>
+            <p>
+                Em meio ao ritmo acelerado da tarde, lembre-se: você é sempre o
+                ponto mais bonito da minha paisagem.
+            </p>
+            <button class="btn" data-periodo="tarde">Playlist da Tarde</button>
+        </div>
+
+        <!-- Noite -->
+        <div class="card">
+            <div class="card-title">🌙 Noite</div>
+            <p>
+                Cada segundo longe de você é um segundo de saudade. Que seu sono
+                seja leve e que a sua manhã chegue rápido.
+            </p>
+            <button class="btn" data-periodo="noite">Playlist da Noite</button>
+        </div>
+
+        <div class="footer">
+            Feito com todo amor de <b style="cursor: pointer;" class="secret">Matt 💘</b>
+        </div>
+    </div>
+
+</body>
+<script>
+    (function () {
+
+        const el = document.getElementById("dynamic-title");
+
+        // Lista de frases
+        const frases = [
+            // Português – variações
+            "Bom Dia, Meu Amor 💗",
+            "Bom Dia, Minha Princesa ✨",
+            "Bom Dia, Coisa Linda 🌷",
+
+            // Inglês
+            "Good Morning, My Love 💗",
+            "Good Morning, Beautiful ✨",
+            "Good Morning, Sweetheart 🌸",
+
+            // Espanhol
+            "Buenos Días, Mi Amor 💗",
+            "Buenos Días, Mi Vida ✨",
+            "Buenos Días, Preciosa 🌹",
+
+            // Sueco
+            "God Morgon, Min Älskling 💗",
+            "God Morgon, Älskade ✨",
+            "God Morgon, Vackra Du 🌼"
+        ];
+
+        let indexFrase = 0;
+        let indexLetra = 0;
+        let apagando = false;
+        const velocidade = 90;
+        const pausaEntreFrases = 1400;
+
+        function digitar() {
+
+            const fraseAtual = frases[indexFrase];
+
+            if (!apagando) {
+                // escreve
+                el.textContent = fraseAtual.substring(0, indexLetra + 1);
+                indexLetra++;
+
+                if (indexLetra === fraseAtual.length) {
+                    apagando = true;
+                    setTimeout(digitar, pausaEntreFrases);
+                    return;
+                }
+
+            } else {
+                // apaga
+                el.textContent = fraseAtual.substring(0, indexLetra - 1);
+                indexLetra--;
+
+                if (indexLetra === 0) {
+                    apagando = false;
+                    indexFrase = (indexFrase + 1) % frases.length; // loop
+                }
+            }
+
+            setTimeout(digitar, apagando ? velocidade / 1.5 : velocidade);
+        }
+
+        digitar();
+
+    })();
+</script>
+<!-- SweetAlert (colocado antes do script que usa) -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    (function () {
+
+        /* ------------------------------------
+           PLAYLISTS E MENSAGENS
+        -------------------------------------- */
+        const mensagens = {
+            manha: {
+                texto: `
+                Bom dia, meu amor… você já recebeu o recadinho mais importante?<br><br>
+                Você está linda demais nesta manhã ☀️<br><br>
+                <a href='https://open.spotify.com/playlist/1dWtkDxDnKDeineyiajS1T' target='_blank'>Clique aqui para sua playlist</a>
+            `,
+                gif: "cat.gif"
+            },
+
+            tarde: {
+                texto: `
+                Passando pra iluminar sua tarde…<br>
+                Já falei hoje que você está irresistível, minha arquiteta linda? 💗<br><br>
+                <a href='https://open.spotify.com/playlist/2kbuauDw5wFgj1AUn0Kp4s' target='_blank'>Clique aqui para sua playlist</a>
+            `,
+                gif: "cat.gif"
+            },
+
+            noite: {
+                texto: `
+                A noite chegou… e eu vim lembrar o quanto é fácil amar você 🌙<br><br>
+                <a href='https://open.spotify.com/playlist/4sGsryx2xpkXt0c7lWb610' target='_blank'>Clique aqui para sua playlist</a>
+            `,
+                gif: "cat.gif"
+            }
+        };
+
+        const showMessage = (periodo) => {
+            const m = mensagens[periodo];
+            Swal.fire({
+                title: "Oi, meu amor ❤️",
+                html: m.texto,
+                imageUrl: m.gif,
+                imageWidth: 200,
+                imageAlt: "Gif fofo",
+                confirmButtonText: "Awn 💕",
+                confirmButtonColor: "#ff7ac4",
+            });
+        };
+
+        const showSecret = () => {
+            Swal.fire({
+                title: "🦆 Você achou o easter egg",
+                html: `
+                <p style="margin:0;">Isso te dá direito a um beijo especial do dono da página 😘<br>
+                <br />
+                <small style="opacity:.9">Te quero pato da vida 💛 (abre o porta luvas e ti vai ter uma surpresa).</small></p>
+            `,
+                confirmButtonText: "Quack 💛",
+                confirmButtonColor: ""
+            });
+        };
+
+
+        /* ------------------------------------
+           BOTÕES DE CADA PERÍODO
+        -------------------------------------- */
+        document.querySelectorAll(".btn[data-periodo]").forEach(btn => {
+            const periodo = btn.dataset.periodo;
+
+            btn.addEventListener("click", () => showMessage(periodo));
+
+            // acessibilidade
+            btn.setAttribute("tabindex", "0");
+            btn.addEventListener("keydown", e => {
+                if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    showMessage(periodo);
+                }
+            });
+        });
+
+        document.querySelectorAll(".secret").forEach(btn => {
+            btn.addEventListener("click", () => showSecret());
+
+            // acessibilidade
+            btn.setAttribute("tabindex", "0");
+            btn.addEventListener("keydown", e => {
+                if (e.key === "Enter" || e.key === "") {
+                    e.preventDefault();
+                    showSecret();
+                }
+            });
+        });
+    })();
+</script>
+
+
+</html>
